@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom'
 import {logo} from './assets'
-// import {Home, CreatePost } from './pages'
+import {Home, CreatePost } from './pages'
 
 function App() {
   return (
@@ -17,7 +17,10 @@ function App() {
         </Link>
       </header>
       <main className='sm:p-8 px-4 py-8 w-[100%] bg-[#FAFAFC] min-h-[calc(100vh-73px)]'>
-        
+        <Routes>
+          <Route path='/' element={<Home/>} />
+          <Route path='/create-post' element={<CreatePost/>} />
+        </Routes>
       </main>
     </Router>
   );
