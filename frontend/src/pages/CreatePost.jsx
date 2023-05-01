@@ -7,15 +7,36 @@ import { FormField, Loader } from '../components'
 const CreatePost = () => {
     const navigate = useNavigate()
     const [form, setForm] = useState({
-        name: "",
-        prompt: "",
-        photo: ""
+        name: '',
+        prompt: '',
+        photo: ''
     })
     const [generating, setGenerating] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const generateImg = () => {
-        
+    const generateImg = async () => {
+        if(form.prompt){
+            try {
+                setGenerating(true)
+                const response = await fetch('http://localhost:8000/api/dalle',{
+                    method:'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                    },
+                    body: JSON.stringify({ prompt: form.prompt }),
+                })
+
+                const data = await response.json()
+
+                setForm({...form,photo: `data:image/jpeg;base64,${data.photo}`})
+            } catch (error) {
+                console.log(error)
+            } finally{
+                setGenerating(false)
+            }
+        } else {
+            alert('Please Enter a prompt')
+        }
     }
 
     const handleSubmit = () => {
